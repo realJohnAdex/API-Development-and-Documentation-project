@@ -7,7 +7,6 @@ import random
 import sys
 from models import setup_db, Question, Category
 
-from  sqlalchemy.sql.expression import func, select
 
 QUESTIONS_PER_PAGE = 10
 
@@ -98,7 +97,7 @@ def create_app(test_config=None):
             selection = Question.query.order_by(Question.id).all()
             current_questions = paginate_questions(request, selection)
 
-            if len(current_questions) == 0:
+            if (len(current_questions) == 0 or len(formatted_categories) == 0):
                 abort(404)
 
             return jsonify(
@@ -162,7 +161,7 @@ def create_app(test_config=None):
         try:
             if searchTerm:
                 selection = Question.query.order_by(Question.id).filter(
-                    Question.question.ilike("%{}%".format(searchTerm))
+                    Question.question.ilike(f"%{searchTerm}%")
                 )
                 current_questions = paginate_questions(request, selection)
 
@@ -175,7 +174,7 @@ def create_app(test_config=None):
                     }
                 )
 
-            elif new_question:
+            elif (new_question and new_answer):
                 question = Question(
                     question=new_question, 
                     answer=new_answer, 
@@ -293,20 +292,19 @@ def create_app(test_config=None):
             404,
         )
 
+    @app.errorhandler(405)
+    def not_found(error):
+        return (
+            jsonify({"success": False, "error": 405, "message": "method not allowed"}),
+            405,
+        )
+
     @app.errorhandler(422)
     def unprocessable(error):
         return (
             jsonify({"success": False, "error": 422, "message": "unprocessable"}),
             422,
         )
-
-    @app.errorhandler(500)
-    def not_allowed(error):
-        return (
-            jsonify({"success": False, "error": 500, "message": "internal server error"}),
-            405,
-        )
-
     
 
     return app

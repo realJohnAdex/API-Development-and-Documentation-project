@@ -1,11 +1,11 @@
 ## API Reference
 
 ### Getting Started
-- Base URL: At present this app can only be run locally and is not hosted as a base URL. The backend app is hosted at the default, `http://127.0.0.1:5000/`, which is set as a proxy in the frontend configuration. 
-- Authentication: This version of the application does not require authentication or API keys. 
+- This software can only be launched locally at the moment and is not available as a base URL. The default location for the backend app is, `http://127.0.0.1:5000/`, it is configured as a proxy in the frontend. 
+- Authentication: Authentication or API keys are not required in this version of the application. 
 
 ### Error Handling
-Errors are returned as JSON objects in the following format:
+Errors are returned in the following format as JSON objects:
 ```
 {
     "success": False, 
@@ -13,18 +13,18 @@ Errors are returned as JSON objects in the following format:
     "message": "bad request"
 }
 ```
-The API will return three error types when requests fail:
+When requests fail, the API will return four errors types:
 - 400: Bad Request
 - 404: Resource Not Found
-- 422: Not Processable 
-- 500: Internal Server Error 
+- 405: Method Not Allowed
+- 422: Not Processable  
 
 ### Endpoints 
 #### GET '/categories'
 
-- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
-- Request Arguments: None
-- Returns: An object with a single key, categories, that contains an object of id: category_string key:value pairs and 'success' boolean.
+- Retrieves a dictionary of categories, where the keys are the ids and the value is the category's matching string.
+- Arguments for Requests: None
+- Returns: A single-key object, categories, that includes an object with the id: category string key:value pairs with the boolean 'success'
 - Sample: `curl http://127.0.0.1:5000/categories`
 
 ```json
@@ -45,9 +45,9 @@ The API will return three error types when requests fail:
 
 #### GET '/questions?page=${integer}'
 
-- Fetches a paginated set of questions, a total number of questions, all categories and current category string.
-- Request Arguments: `page` - integer
-- Returns: An object with list of 10 paginated questions, total questions, object including all categories, and current category string, and 'success' boolean.
+- Retrieves a paginated list of questions, and the total number of questions, all categories, and the current category string.
+- Request Arguments: integer 'page'
+- Returns: An object containing a list of ten paginated questions, the total number of questions, an object containing all categories, the current category string, and the boolean 'success'.
 - Sample: `curl http://127.0.0.1:5000/questions?page=1`
 
 ```json
@@ -142,9 +142,9 @@ The API will return three error types when requests fail:
 
 #### GET '/categories/${id}/questions'
 
-- Fetches questions for a cateogry specified by id request argument
-- Request Arguments: `id` - integer
-- Returns: An object with questions for the specified category, total questions, current category string and 'success' boolean.
+- Retrieves questions for a cateogry given by the id request parameter.
+- Request Arguments: integer 'id'
+- Returns: An object containing questions for the provided category, the total number of questions, the current category string, and the boolean 'success'.
 - Sample: `curl http://127.0.0.1:5000/categories/2/questions`
 
 ```json
@@ -188,7 +188,7 @@ The API will return three error types when requests fail:
 ---
 #### GET '/quizzes'
 
-- Sends a post request in order to get the next question
+- Issues a post request to obtain the next question.
 - Sample: `curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{ "previous_questions": [1, 4], "quiz_category": {"id": 1, "type": "Science"}}'`
 
 - Request Body:
@@ -200,7 +200,7 @@ The API will return three error types when requests fail:
 }
 ```
 
-- Returns: a single new question object and 'success' boolean.
+- Returns a single new question object and the boolean 'success'.
 
 ```json
 {
@@ -218,7 +218,7 @@ The API will return three error types when requests fail:
 ---
 #### POST '/questions'`
 
-- Sends a post request in order to add a new question
+- Submits a post request to add a new question to the database.
 - Sample: `curl -X POST http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"question": "What is my name?", "answer": "John Adex", "difficulty": 1, "category": 1}'`
 
 - Request Body:
@@ -243,7 +243,7 @@ The API will return three error types when requests fail:
 
 #### POST '/questions'
 
-- Sends a post request in order to search for a specific question by search term
+- Sends a post request to find a specific question using a search keyword.
 - Sample: `curl -X POST -H "Content-Type: application/json" -d'{"searchTerm":"title"}' http://127.0.0.1:5000/questions`
 - Request Body:
 
@@ -253,7 +253,7 @@ The API will return three error types when requests fail:
 }
 ```
 
-- Returns: any array of questions, a number of totalQuestions that met the search term, the current category string and success boolean.
+- Returns: any array of questions, and total number of questions that met the search phrase, current category string, and 'success' boolean.
 
 ```json
 {
@@ -282,9 +282,9 @@ The API will return three error types when requests fail:
 ---
 #### DELETE '/questions/${id}'
 
-- Deletes a specified question using the id of the question
-- Request Arguments: `id` - integer
-- Returns: An integer 'deleted' of the id and 'success' boolean.
+- Using the question's id, deletes a specific question.
+- Request Arguments: integer 'id'
+- Returns: An integer with the id 'deleted' and the boolean 'success'.
 - Sample: `curl -X DELETE http://127.0.0.1:5000/questions/1`
 
 ```json
@@ -300,7 +300,7 @@ The API will return three error types when requests fail:
 ## Deployment N/A
 
 ## Authors
-Yours truly, John Adex
+Thanks, Yours Truly, Adex, John.
 
 ## Acknowledgements 
-The awesome team at Udacity and all of the students, soon to be full stack extraordinaires! 
+The Udacity crew and all of the students, who will soon be full stack superstars!
